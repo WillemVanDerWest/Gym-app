@@ -1,10 +1,27 @@
 import logo from './logo.svg';
 import './App.css';
+import './index.css'
+import Navbar from './Components/navbar.js'
+import Content from './Components/content.js'
+import Footer from './Components/footer.js'
 
 function App() {
   return (
+    <div className='size'>
+    <Navbar/>
+    <Content/>
+    <Footer/>
+
+
+
+
+
+
+
+
     <div>
-      <h1>Project idea and scope</h1>
+          
+      <h1><a href="https://www.figma.com/design/40dp9f4tmcFoCxAx8F3bul/Gym-app?node-id=0-1&t=Inhfw06c5nh7IJcI-0">Project idea and scope</a></h1>
       <h2>The app will be a basic app that basicly for now only logs information. The information will be gym information for now and later change to be any kind of workout information</h2>
       <ul>
         <li>Must use a form</li>
@@ -49,6 +66,7 @@ function App() {
           <li>forms in React</li>
           <li>working with multiple pages</li>
         </ul>
+    </div>
     </div>
   );
 }

@@ -1,14 +1,14 @@
 import React from "react";
 import '../index.css'
 import img from '../kettlebel.png'
-
+import Workout from "./workout.js";
+import Home from "./home.js"
+import Log from "./log.js";
 
 
 export default function Content(){
 
-    const [page, setPage] = React.useState(0);
-
-
+    const [page, setPage] = React.useState(1); //Current page counter
 
     function addDaily(){
         setPage(() => {
@@ -22,107 +22,105 @@ export default function Content(){
             return(number)
         }) // go to home
     }
-    
-
-    
-    
-    const CreateWorkout = () => {
-        return(
-                        <div>
-                        <div className="flex">
-                            <label for="workoutNumbers">Workout 01</label>
-                            <input id="workoutNumber" type="text"/>
-                        </div>
-
-                        <div className="flex">
-                            <label for="sets">Sets</label>
-                            <input id="sets" type="number" min="1" max="6"/>
-                            <label for="reps">Reps</label>
-                            <input id="reps" type="number" min="6" max="20"/>
-                            <label for="kg">KG</label>
-                            <input id="kg" type="number" min="0" max="100"/>  
-                        </div>
-                        </div>
-        )
+    function goLog(){
+        setPage(2)
     }
 
-    const [workoutAmount, setWorkoutAmount] = React.useState(1)
+
     
+    const [workoutCounter, setWorkoutCounter] = React.useState(1)
     function incWorkoutCounter(){
-        setWorkoutAmount((prevAmount) => {
-            
+        setWorkoutCounter((prevAmount) => {
             return (prevAmount === 5 ? prevAmount : prevAmount + 1)
-  
         })
-    }
+    }// increasing workouts
 
     function decWorkoutCounter(){
-        setWorkoutAmount((prevAmount) => {
+        setWorkoutCounter((prevAmount) => {
             return (prevAmount === 0 ? prevAmount : prevAmount - 1)
         })
-    }
-    console.log(`amount: ${workoutAmount}`)
+    }// decreasing workouts
+    
 
-    const Log = () => {
+
+    
+    const [workoutData, setWorkoutData] = React.useState({
+        workoutNumber : '',
+        sets : '',
+        reps : '',
+        kg : '',
+    })// setting up data state
+
+    function handleWorkout(event){
+        setWorkoutData((oldData) => {
+            return {
+                ...oldData,
+                 [event.target.id] : event.target.value,
+                 
+            }
+        })
+    } //setting data
+    console.log(workoutData) 
+
+
+    const workouts = [];
+    for (let i = 0; i < workoutCounter; i++){
+        workouts.push(
+        <Workout 
+            id = {i+1}
+            handleWorkout = {handleWorkout} 
+            workoutNumber = {workoutData.workoutNumber}
+            sets = {workoutData.sets}
+            reps = {workoutData.reps}
+            kg = {workoutData.kg}
+
+        />)
+    } //Rendering Workout Components
+
+    function recordLogs(){
+        goHome()
+        setWorkoutCounter(1)
+    }//record logs when button is pressed
+    
+    const ShowLogData = () => {
         return(
-            <div className="btn-container">
-                <div className="form-container">
-                <div className="flex">
-                            <h3>{`Workouts: ${workoutAmount}`}</h3>
-                            <button onClick={incWorkoutCounter}>+</button>
-                            <button onClick={decWorkoutCounter}>-</button>
-                </div>
-
-                
-                    <form>
-                        <div className="flex">
-                            <label for="muscleGroups">Muscle Group</label>
-                            <input id="muscleGroups" list="muscleGroup"/>
-                        </div>
-                    </form>
-                    <div>
-                    
-                    </div>
-
-                    
-                    <datalist id="muscleGroup"> 
-                        <option>Biceps</option>
-                        <option>Triceps</option>
-                        <option>Back</option>
-                        <option>Legs</option>
-                        <option>Core</option>
-                        <option>Chest</option>
-                    </datalist>
-
-                    <button onClick={goHome}>
-                        Return Home
-                    </button>
-                </div>
+            <div>
+                <ul>
+                    <li>Workout: {workoutData.workoutNumber}</li>
+                    <li>Sets: {workoutData.sets}</li>
+                    <li>Reps: {workoutData.reps}</li>
+                    <li>KG: {workoutData.kg}</li>
+                </ul>
+                <button onClick={goHome}>go home</button>
             </div>
         )
     }
     
-    const Home = () => {
-        return(
-        <div className="btn-container">
-        <button className="button-home" onClick={addDaily}>
-            <img src={img} width="26px"/>
-            Add daily log
-        </button>
-        <button className="button-home">
-            <img src={img} width="26px" />
-            View History
-        </button>
-    </div>
-
-        )
-
-    }
-
-    
     return(
         <div>
-        {page === 0 ? <Home/> : <Log/>}
+        {page === 0 ?   //if
+            <Home 
+                addDaily = {addDaily} 
+                img = {img}
+                goLog = {goLog}
+            /> 
+
+            :    page === 1 ?       //else
+
+            <Log 
+                incWorkoutCounter = {incWorkoutCounter} 
+                decWorkoutCounter ={decWorkoutCounter} 
+                recordLogs = {recordLogs} 
+                workoutCounter = {workoutCounter} 
+                img={img}
+                workouts = {workouts}
+            
+               
+            />
+            : 
+            <ShowLogData/>
+
+        }
         </div>
     )
 }

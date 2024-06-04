@@ -4,13 +4,13 @@ import '../index.css'
 export default function Navbar(){
     return(
         <div className="navbar-container">
-        <navbar>
+        <div>
         <img className='img-size' src={img} />
         <ul>
           <li>Home</li>
           <li>About</li>
         </ul>
-      </navbar>
+      </div>
       </div>
     )
 }

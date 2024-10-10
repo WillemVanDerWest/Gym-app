@@ -1,51 +1,74 @@
-import React from "react";
+import React, { useState } from "react";
 
-export default function Workout(props){
+export default function Workout(props) {
+  const classData = {
+    id: props.id,
+    workout: "",
+    sets: "",
+    reps: "",
+    kg: "",
+  };
 
-        return(
+  const [formData, setFormData] = useState(classData);
 
-                        <div className="div-sep">
-                            <div className="line"></div>
-                            <div className="flex">
-                                <label htmlFor="workoutNumbers">{`Workout ${props.id}`}</label>
-                                <input 
-                                    id="workoutNumber" 
-                                    type="text"  
-                                    onChange={props.handleWorkout} 
-                                    value={props.workoutNumber}
-                                />
-                            </div>
+  function handleChange(event) {
+    const newFormData = {
+      ...formData,
+      [event.target.name]: event.target.value,
+    };
 
-                        <div className="flex">
-                            <label htmlFor="sets">Sets</label>
-                            <input 
-                                id="sets" 
-                                type="number" 
-                                min="1" 
-                                max="6"
-                                onChange={props.handleWorkout}
-                                value={props.sets}
-                            />
-                            <label htmlFor="reps">Reps</label>
-                            <input 
-                                id="reps" 
-                                type="number" 
-                                min="6" 
-                                max="20"
-                                onChange={props.handleWorkout}
-                                value={props.reps}    
-                            />
-                            <label htmlFor="kg">KG</label>
-                            <input 
-                                id="kg" 
-                                type="number" 
-                                min="0" 
-                                max="100"
-                                onChange={props.handleWorkout}
-                                value={props.kg}    
-                            />  
-                        </div>
-                        </div>
-        )
-    
+    setFormData(newFormData);
+
+    props.onChangeInputs(
+      formData.id,
+      formData.workout,
+      formData.sets,
+      formData.reps,
+      formData.kg
+    );
+  }
+
+  return (
+    <div key={props.id}>
+      <label>{`Workout 0${props.id + 1}`}</label>
+      <input
+        type="text"
+        name="workout"
+        placeholder="|--|"
+        value={formData.workout}
+        onChange={handleChange}
+      />
+
+      <label>{`Sets`}</label>
+      <input
+        type="number"
+        name="sets"
+        placeholder="3"
+        min={`1`}
+        max={`6`}
+        value={formData.sets}
+        onChange={handleChange}
+      />
+      <label>{`Reps`}</label>
+      <input
+        type="number"
+        name="reps"
+        placeholder="10"
+        min={`0`}
+        max={`30`}
+        value={formData.reps}
+        onChange={handleChange}
+      />
+      <label>{`KG`}</label>
+      <input
+        type="number"
+        name="kg"
+        placeholder="0"
+        min={`0`}
+        max={`200`}
+        value={formData.kg}
+        onChange={handleChange}
+      />
+    </div>
+  );
 }

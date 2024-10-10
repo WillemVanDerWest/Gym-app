@@ -20,7 +20,6 @@ function App() {
 
 
     <div>
-          
       <h1><a href="https://www.figma.com/design/40dp9f4tmcFoCxAx8F3bul/Gym-app?node-id=0-1&t=Inhfw06c5nh7IJcI-0">Project idea and scope</a></h1>
       <h2>The app will be a basic app that basicly for now only logs information. The information will be gym information for now and later change to be any kind of workout information</h2>
       <ul>
